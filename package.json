@@ -1,0 +1,29 @@
+{
+  "name": "web_project_around_express",
+  "version": "1.0.0",
+  "description": "Back-end focused on creating a server for the EUA Afora Project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VanessaYuriAB/web_project_around_express.git"
+  },
+  "keywords": [
+    "study",
+    "back-end",
+    "express",
+    "nodejs",
+    "eua",
+    "afora",
+    "project",
+    "server"
+  ],
+  "author": "Vanessa Yuri A. Brito <emaildavanessayuri@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VanessaYuriAB/web_project_around_express/issues"
+  },
+  "homepage": "https://github.com/VanessaYuriAB/web_project_around_express#readme"
+}
