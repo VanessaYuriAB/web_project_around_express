@@ -1,3 +1,7 @@
 {
-  "extends": "airbnb-base"
+  "extends": "airbnb-base",
+  "rules": {
+    "no-console": "off", // Allow console statements, useful for debugging - Node.js environment
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }] // Allow _id
+  }
 }
