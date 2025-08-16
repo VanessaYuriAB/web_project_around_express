@@ -1,7 +1,11 @@
 {
+  // Use Airbnb style guide as base for Node.js environment
   "extends": "airbnb-base",
+  // Override specific rules to fit project needs
   "rules": {
-    "no-console": "off", // Allow console statements, useful for debugging - Node.js environment
-    "no-underscore-dangle": ["error", { "allow": ["_id"] }] // Allow _id
+    // Disable no-console rule to allow console statements, useful for debugging
+    "no-console": "off",
+    // Allow dangling underscores in identifiers, specifically for MongoDB _id
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }]
   }
 }
