@@ -1,18 +1,16 @@
 const usersRouter = require('express').Router();
-const users = require('../data/users.json');
+const path = require('path');
 
-usersRouter.get('/', (req, res) => {
-  res.send({ users });
-});
+const usersFilePath = path.join(__dirname, '../data/users.json');
+const readUsersFileMiddleware = require('../middlewares/read-json-file')(usersFilePath);
 
-usersRouter.get('/:id', (req, res) => {
-  const { id } = req.params;
-  const userId = users.find((user) => user._id === id);
-  if (!userId) {
-    res.status(404).send({ message: 'ID do usuário não encontrado' });
-    return;
-  }
-  res.send(userId);
-});
+const sendUsersMiddleware = require('../middlewares/send-users');
+
+const doesUserExistMiddleware = require('../middlewares/does-user-exist');
+const sendUserMiddleware = require('../middlewares/send-user');
+
+usersRouter.get('/', readUsersFileMiddleware, sendUsersMiddleware);
+
+usersRouter.get('/:id', readUsersFileMiddleware, doesUserExistMiddleware, sendUserMiddleware);
 
 module.exports = usersRouter;

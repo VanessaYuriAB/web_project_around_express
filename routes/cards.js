@@ -1,8 +1,11 @@
 const cardsRouter = require('express').Router();
-const cards = require('../data/cards.json');
+const path = require('path');
 
-cardsRouter.get('/', (req, res) => {
-  res.send({ cards });
-});
+const cardsFilePath = path.join(__dirname, '../data/cards.json');
+const readCardsFileMiddleware = require('../middlewares/read-json-file')(cardsFilePath);
+
+const sendCardsMiddleware = require('../middlewares/send-cards');
+
+cardsRouter.get('/', readCardsFileMiddleware, sendCardsMiddleware);
 
 module.exports = cardsRouter;
