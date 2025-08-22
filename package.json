@@ -1,7 +1,7 @@
 {
   "name": "web_project_around_express",
   "version": "1.0.0",
-  "description": "Back-end focused on creating a server for the EUA Afora Project",
+  "description": "Back-end focused on creating a server for the Around The U.S. Project",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -17,12 +17,19 @@
   "keywords": [
     "study",
     "back-end",
+    "api",
+    "server",
+    "node",
+    "nodemon",
     "express",
-    "nodejs",
-    "eua",
-    "afora",
-    "project",
-    "server"
+    "javascript",
+    "eslint",
+    "airbnb",
+    "open",
+    "around",
+    "us",
+    "web",
+    "project"
   ],
   "author": "Vanessa Yuri A. Brito <emaildavanessayuri@gmail.com>",
   "license": "ISC",
