@@ -7,7 +7,8 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "dev:open": "node -e \"require('open')('http://localhost:3000')\" && npm run dev",
-    "lint": "npx eslint ."
+    "lint": "npx eslint .",
+    "lint:fix": "eslint . --ext js,jsx --fix"
   },
   "repository": {
     "type": "git",
