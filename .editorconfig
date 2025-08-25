@@ -15,7 +15,7 @@ indent_style = space
 indent_size = 2
 
 # Caracteres de nova linha para usar (varia de acordo com o sistema operacional)
-# Valores possíveis - if, crlf, cr
+# Valores possíveis - lf, crlf, cr
 end_of_line = lf
 
 # Codificação dos caracteres dos arquivos
