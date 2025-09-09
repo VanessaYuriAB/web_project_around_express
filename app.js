@@ -14,6 +14,15 @@ const app = express();
 // Middleware para analisar o corpo das requisições como JSON
 app.use(express.json());
 
+// Middleware para adicionar um objeto user em cada solicitação para simular um usuário autenticado
+app.use((req, res, next) => {
+  req.user = {
+    _id: '68c0361b88bffda4db2a681a', // _id do usuário teste criado via Postman
+  };
+
+  next();
+});
+
 // Rota que define o prefixo /users
 app.use('/users', usersRouter);
 // Rota que define o prefixo /cards
