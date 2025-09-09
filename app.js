@@ -1,5 +1,7 @@
 const express = require('express');
 
+const mongoose = require('mongoose');
+
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 
@@ -8,6 +10,9 @@ const notFoundPageMiddleware = require('./middlewares/not-found-page');
 const { PORT = 3000 } = process.env;
 
 const app = express();
+
+// Conexão com o banco de dados MongoDB
+mongoose.connect('mongodb://localhost:27017/aroundb');
 
 // Rota que define o prefixo /users
 app.use('/users', usersRouter);
