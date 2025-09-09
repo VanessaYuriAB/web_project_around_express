@@ -5,8 +5,6 @@ const mongoose = require('mongoose');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 
-const notFoundPageMiddleware = require('./middlewares/not-found-page');
-
 const { PORT = 3000 } = process.env;
 
 const app = express();
@@ -28,8 +26,10 @@ app.use('/users', usersRouter);
 // Rota que define o prefixo /cards
 app.use('/cards', cardsRouter);
 
-// Middleware para erros 404 - Not Found
-app.use(notFoundPageMiddleware);
+// Middleware para erros 404 - Rota não encontrada
+app.use((req, res) => {
+  res.status(404).send({ message: 'A solicitação não foi encontrada' });
+});
 
 // Conexão com o banco de dados MongoDB
 mongoose.connect('mongodb://localhost:27017/aroundb');
