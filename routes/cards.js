@@ -1,11 +1,11 @@
 const cardsRouter = require('express').Router();
-const path = require('path');
 
-const cardsFilePath = path.join(__dirname, '../data/cards.json');
-const readCardsFileMiddleware = require('../middlewares/read-json-file')(cardsFilePath);
+const { getCards, createCard, deleteCardById } = require('../controllers/cards');
 
-const sendCardsMiddleware = require('../middlewares/send-cards');
+// rotas para cartões
+cardsRouter.get('/', getCards);
+cardsRouter.post('/', createCard);
+cardsRouter.delete('/:cardId', deleteCardById);
 
-cardsRouter.get('/', readCardsFileMiddleware, sendCardsMiddleware);
-
+// exporta o roteador de cartões
 module.exports = cardsRouter;
