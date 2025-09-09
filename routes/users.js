@@ -1,16 +1,11 @@
 const usersRouter = require('express').Router();
-const path = require('path');
 
-const usersFilePath = path.join(__dirname, '../data/users.json');
-const readUsersFileMiddleware = require('../middlewares/read-json-file')(usersFilePath);
+const { getUsers, getUserById, createUser } = require('../controllers/users');
 
-const sendUsersMiddleware = require('../middlewares/send-users');
+// rotas para usuários
+usersRouter.get('/', getUsers);
+usersRouter.get('/:userId', getUserById);
+usersRouter.post('/', createUser);
 
-const doesUserExistMiddleware = require('../middlewares/does-user-exist');
-const sendUserMiddleware = require('../middlewares/send-user');
-
-usersRouter.get('/', readUsersFileMiddleware, sendUsersMiddleware);
-
-usersRouter.get('/:id', readUsersFileMiddleware, doesUserExistMiddleware, sendUserMiddleware);
-
+// exporta o roteador de usuários
 module.exports = usersRouter;
