@@ -9,6 +9,23 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
+// Middleware para registrar detalhes de cada requisição
+app.use((req, res, next) => {
+  const { method, url } = req;
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${method} ${url}`);
+
+  const start = Date.now();
+
+  // Quando a resposta terminar
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    console.log(`${res.statusCode} - ${duration}ms`);
+  });
+
+  next();
+});
+
 // Middleware para analisar o corpo das requisições como JSON
 app.use(express.json());
 
