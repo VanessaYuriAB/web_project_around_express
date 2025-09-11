@@ -49,8 +49,15 @@ app.use((req, res) => {
 });
 
 // Conexão com o banco de dados MongoDB
-mongoose.connect('mongodb://localhost:27017/aroundb');
+mongoose.connect('mongodb://localhost:27017/aroundb')
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((err) => {
+    console.error('Error connecting to MongoDB:', err);
+  });
 
+// Inicia o servidor na porta especificada
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
