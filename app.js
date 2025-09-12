@@ -5,9 +5,12 @@ const mongoose = require('mongoose');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 
+const app = express();
 const { PORT = 3000 } = process.env;
 
-const app = express();
+// ------------------------
+// Middlewares
+// ------------------------
 
 // Middleware para registrar detalhes de cada requisição
 app.use((req, res, next) => {
@@ -29,7 +32,7 @@ app.use((req, res, next) => {
 // Middleware para analisar o corpo das requisições como JSON
 app.use(express.json());
 
-// Middleware para adicionar um objeto user em cada solicitação para simular um usuário autenticado
+// Middleware para simular um usuário autenticado
 app.use((req, res, next) => {
   req.user = {
     _id: '68c0361b88bffda4db2a681a', // _id do usuário teste criado via Postman
@@ -38,17 +41,24 @@ app.use((req, res, next) => {
   next();
 });
 
+// ------------------------
+// Rotas
+// ------------------------
+
 // Rota que define o prefixo /users
 app.use('/users', usersRouter);
 // Rota que define o prefixo /cards
 app.use('/cards', cardsRouter);
 
-// Middleware para erros 404 - Rota não encontrada
+// Middleware para erros 404 - rotas não encontradas
 app.use((req, res) => {
   res.status(404).send({ message: 'A solicitação não foi encontrada' });
 });
 
-// Conexão com o banco de dados MongoDB
+// ------------------------
+// Conexão com MongoDB
+// ------------------------
+
 mongoose.connect('mongodb://localhost:27017/aroundb')
   .then(() => {
     console.log('Connected to MongoDB');
@@ -57,7 +67,10 @@ mongoose.connect('mongodb://localhost:27017/aroundb')
     console.error('Error connecting to MongoDB:', err);
   });
 
-// Inicia o servidor na porta especificada
+// ------------------------
+// Start do servidor
+// ------------------------
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
