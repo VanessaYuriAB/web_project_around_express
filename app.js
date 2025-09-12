@@ -35,7 +35,7 @@ app.use(express.json());
 // Middleware para simular um usuário autenticado
 app.use((req, res, next) => {
   req.user = {
-    _id: '68c0361b88bffda4db2a681a', // _id do usuário teste criado via Postman
+    _id: '68c4168c01d67ddcff340228', // _id do usuário teste criado via Postman
   };
 
   next();
@@ -52,7 +52,7 @@ app.use('/cards', cardsRouter);
 
 // Middleware para erros 404 - rotas não encontradas
 app.use((req, res) => {
-  res.status(404).send({ message: 'A solicitação não foi encontrada' });
+  res.status(404).send({ message: 'A página não foi encontrada, é um endereço inexistente' });
 });
 
 // ------------------------
