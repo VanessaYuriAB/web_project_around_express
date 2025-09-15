@@ -92,6 +92,37 @@ const createUser = async (req, res) => {
   const user = await User.create({ name, about, avatar });
   res.status(201).send({ data: user });
 };
+
+// O manipulador de solicitação updateUser
+// Erros: Not found, Validation, Cast ou Internal server
+const updateUser = async (req, res) => {
+  const { name, about } = req.body;
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user._id,
+    { name, about },
+    { new: true, runValidators: true },
+  ).orFail(() => {
+    const err = new Error('Erro ao atualizar usuário, Recurso não encontrado: não existe usuário com o id solicitado');
+    err.name = 'NotFoundError';
+    throw err;
+  });
+  res.send({ data: updatedUser });
+};
+
+// O manipulador de solicitação updateAvatar
+// Erros: Not found, Validation, Cast ou Internal server
+const updateAvatar = async (req, res) => {
+  const { avatar } = req.body;
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user._id,
+    { avatar },
+    { new: true, runValidators: true },
+  ).orFail(() => {
+    const err = new Error('Erro ao atualizar avatar, Recurso não encontrado: não existe usuário com o id solicitado');
+    err.name = 'NotFoundError';
+    throw err;
+  });
+  res.send({ data: updatedUser });
 };
 
 module.exports = {
@@ -99,4 +130,6 @@ module.exports = {
   getUsers: handleAsync(getUsers),
   getUserById: handleAsync(getUserById),
   createUser: handleAsync(createUser),
+  updateUser: handleAsync(updateUser),
+  updateAvatar: handleAsync(updateAvatar),
 };
