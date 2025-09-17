@@ -1,18 +1,39 @@
 <a id="top"></a>
 # 🗺️ 1. Web_project_around_express: EUA Afora
 
-Meu primeiro projeto back-end. 🚀
+Este é o meu **primeiro e segundo projeto back-end** do curso de **Desenvolvimento Web Full-Stack da TripleTen**. 🚀
 
-Projeto do curso de Desenvolvimento Web Full-Stack da TripleTen. 
+Foram **duas sprints de dedicação** até aqui:
 
-Focado na criação do meu próprio servidor para o projeto "EUA Afora", onde será possível verificar tokens, salvar e retornar cards e lembrar se um determinado usuário gostou ou não de um cartão. 
+- **Sprint 15** → Introdução ao Back-End com **Node.js** e **Express.js**
 
-**Aprendizado:** trabalhar com bases de dados, configurar segurança, testes e implantar o back-end em uma máquina remota.
+- **Sprint 16** → Conexão com bancos de dados e criação de uma **API REST**
 
-**Objetivo:** criar um servidor com uma API e autenticação de usuário. 🔐
+O projeto consiste em uma **API RESTful** para o *EUA Afora*, com as seguintes funcionalidades:
+
+- 👤 Gerenciamento de **usuários** e **cards**
+
+- 💾 **Persistência de dados** no MongoDB
+
+- ❤️ Registro de curtidas e remoção de curtidas em cards
+
+- 📤 Retorno de dados em formato JSON de forma padronizada
+
+**Aprendizado**:
+
+- Trabalhar com bases de dados reais
+
+- Configurar segurança e tratamento de erros
+
+- Preparar o servidor para testes e futura implantação em ambiente remoto
+
+**Objetivo**:
+
+Criar um servidor robusto com **CRUD completo** e **autenticação de usuários**. 🔐
 
 ![Node.js Version](https://img.shields.io/badge/node-v22.15.0-green)
 ![npm](https://img.shields.io/badge/npm-v10.9.2-red)
+![MongoDB](https://img.shields.io/badge/mongodb-v8.0.13-brightgreen)
 ![ESLint](https://img.shields.io/badge/eslint-airbnb%20base-blue)
 ![EditorConfig](https://img.shields.io/badge/config-EditorConfig-yellow)
 ![License](https://img.shields.io/badge/license-ISC-blue)
@@ -37,9 +58,11 @@ Focado na criação do meu próprio servidor para o projeto "EUA Afora", onde se
   - ⚙️ Configuração inicial do projeto
   - 🚀 Servidor Express
   - 🌐 Rotas da API
+  - 📝 Middlewares
   - 🛡️ Tratamento de erros
+  - 💾 Banco de dados
   - 🗂️ Estrutura modular do projeto
-  - 📄 Trabalho com arquivos
+
 
 - 🎥 Demonstração
 
@@ -53,13 +76,17 @@ Focado na criação do meu próprio servidor para o projeto "EUA Afora", onde se
 
 ## 🔧 Pré-requisitos
 
-- **Node.js** instalado (versão LTS). 🟢
+- **Node.js** instalado (versão LTS). 
 
-- **npm** configurado no ambiente: v10.9.2. 📦
+- **npm** configurado no ambiente: v10.9.2. 
 
-- Um cliente de API (ex.: **Postman**, **Insomnia** ou navegador para rotas simples). 🌐
+- **MongoDB Server** instalado: v8.0.13. 
 
-**Obs:** a versão do Node está definida no `package.json`, em `"engines"`:
+- **MongoDB Shell (Mongosh)**: opcional, v2.5.7. 
+
+- Um cliente de API (ex.: **Postman**, **Insomnia** ou navegador para rotas simples). 
+
+📌 A versão do Node está definida no `package.json`, em `"engines"`:
 
 ```json
 "engines": {
@@ -69,7 +96,7 @@ Focado na criação do meu próprio servidor para o projeto "EUA Afora", onde se
 
 ## 📦 Instalação
 
-Clone o repositório em sua máquina local e instale as dependências:
+1. Clone o repositório em sua máquina local:
 
 ```bash
 # Opção 1: HTTPS
@@ -79,14 +106,19 @@ git clone https://github.com/VanessaYuriAB/web_project_around_express.git
 git clone git@github.com:VanessaYuriAB/web_project_around_express.git 
 
 cd web_project_around_express
-npm install
+```
+
+2. Instale as dependências do projeto:
+
+```bash
+npm install # instala todas as dependências listadas no package.json
 ```
 
 📌 **Dicas:** 
 
 - `.npmrc`
 
-  Configuração `save-exact=true` para garantir que todas as dependências sejam instaladas com a **mesma versão** em qualquer ambiente.
+  Configuração `save-exact=true` para manter **versões exatas** de dependências.
 
 - `.vscode/settings.json`
   ```json
@@ -101,11 +133,11 @@ npm install
   "eslint.format.enable": true
   }
   ```
-    - *Configura o VS Code para usar **ESLint** como formatador padrão para arquivos `.js` e `.jsx`.*  
-    - *Habilita **format on save** para manter o código consistente.*  
-    - *Não está versionado no projeto, pois a pasta `.vscode/` está no `.gitignore`.*
+    - *Configuração do VS Code para formatador padrão **ESLint** em arquivos `.js` e `.jsx`.*  
+    - ***format on save** habilitado para manter o código consistente.*  
+    - *Sem versionamento no projeto, pasta `.vscode/` inclusa no `.gitignore`.*
 
-    ⚠️ ***OBS:** essa configuração formata automaticamente apenas o que o **ESLint** consegue aplicar. Alguns ajustes podem precisar ser feitos manualmente ou com o comando:*
+    ⚠️ Essa configuração formata automaticamente apenas o que o **ESLint** consegue aplicar. Alguns ajustes podem precisar ser feitos manualmente ou usando o comando:
 
     ```bash
     npm run lint:fix
@@ -113,7 +145,7 @@ npm install
 
 ## ▶️ Executando o servidor
 
-Inicie o servidor na porta 3000:
+Inicie o servidor na porta **3000**, no modo normal:
 
 ```bash
 npm run start
@@ -133,189 +165,144 @@ npm run dev
 
 *♻️ `dev`: servidor com **hot reload** via `nodemon`.*
 
-Para abrir automaticamente o navegador e iniciar o servidor com **hot reload**:
+Ou, então, para **abrir automaticamente o navegador** e iniciar o servidor com **hot reload**:
 
 ```bash
 npm run dev:open
 ```
 
-![Script - Dev_Open1](./assets/images/script-dev_open1.png)
+![Script - Dev_Open1](./assets/images/script-dev-open1.png)
 
-![Script - Dev_Open2](./assets/images/script-dev_open2.png)
+![Script - Dev_Open2](./assets/images/script-dev-open2.png)
 
 *🔗 `dev:open`: abre automaticamente o navegador em `http://localhost:3000` e ativa **hot reload**.*
 
 ## 🌐 Testando as rotas da API
 
-🔹 **Listar todos os usuários:**
+Conexão com o banco de dados MongoDB: 
 
-- Request:
-
-```bash
-GET http://localhost:3000/users
+``` javascript
+// app.js
+mongoose.connect('mongodb://localhost:27017/aroundb')
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((err) => {
+    console.error('Error connecting to MongoDB:', err);
+  });
 ```
 
-- Response (200 OK):
+🟢 _O banco `aroundb` será criado automaticamente._ 
 
-```json
-[
-  {
-    "nome": "Ada Lovelace",
-    "sobre": "Matemático, escritor",
-    "avatar": "https://www.biography.com/.image/t_share/MTE4MDAzNDEwODQwOTQ2MTkw/ada-lovelace-20825279-1-402.jpg",
-    "_id": "dbfe53c3c4d568240378b0c6"
-  },
-  {
-    "nome": "Tim Berners-Lee",
-    "sobre": "Inventor, cientista",
-    "avatar": "https://media.wired.com/photos/5c86f3dd67bf5c2d3c382474/4:3/w_2400,h_1800,c_limit/TBL-RTX6HE9J-(1).jpg",
-    "_id": "d285e3dceed844f902650f40"
-  },
-  {
-    "nome": "Grace Hopper",
-    "sobre": "Cientista da computação",
-    "avatar": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg/800px-Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg",
-    "_id": "7d8c010a1c97ca2654997a95"
-  },
-  {
-    "nome": "Alan Turing",
-    "sobre": "Matemático, criptoanalista",
-    "avatar": "https://cdn.britannica.com/81/191581-050-8C0A8CD3/Alan-Turing.jpg",
-    "_id": "f20c9c560aa652a72cba323f"
-  },
-  {
-    "nome": "Katherine Johnson",
-    "sobre": "Matemático",
-    "avatar": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Katherine_Johnson_1983.jpg/800px-Katherine_Johnson_1983.jpg",
-    "_id": "8340d0ec33270a25f2413b69"
-  },
-  {
-    "nome": "Margaret Hamilton",
-    "sobre": "Engenheiro de software",
-    "avatar": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Margaret_Hamilton_1995.jpg/800px-Margaret_Hamilton_1995.jpg",
-    "_id": "3c8c16ee9b1f89a2f8b5e4b2"
-  }
-]
-```
+___
 
-![Postman - Get users](./assets/images/postman-get-users.png)
+👤 **Rotas de Usuários:**
 
-*`GET /users` → `200 OK` ✅.*
+| Método | Rota               | Descrição                  |
+| ------ | ------------------ | -------------------------- |
+| GET    | `/users`           | Lista todos os usuários    |
+| GET    | `/users/:userId`   | Retorna um usuário por ID  |
+| POST   | `/users`           | Cria um novo usuário       |
+| PATCH  | `/users/me`        | Atualiza perfil do usuário |
+| PATCH  | `/users/me/avatar` | Atualiza avatar            |
 
-🔹 **Listar todos os cards:**
-
-- Request:
-
-```bash
-GET http://localhost:3000/cards
-```
-
-- Response (200 OK):
-
-```json
-[
-  {
-    "likes": [
-      {
-        "name": "Tim Berners-Lee",
-        "about": "Inventor, scientist",
-        "avatar": "https://media.wired.com/photos/5c86f3dd67bf5c2d3c382474/4:3/w_2400,h_1800,c_limit/TBL-RTX6HE9J-(1).jpg",
-        "_id": "d285e3dceed844f902650f40"
-      }
-    ],
-    "_id": "5d208fb50fdbbf001ffdf72a",
-    "name": "White Sulphur Springs, WV",
-    "link": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/2008-0831-TheGreenbrier-North.jpg/1024px-2008-0831-TheGreenbrier-North.jpg",
-    "owner": {
-      "name": "Katherine Johnson",
-      "about": "Mathematician",
-      "avatar": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Katherine_Johnson_1983.jpg/800px-Katherine_Johnson_1983.jpg",
-      "_id": "8340d0ec33270a25f2413b69"
-    },
-    "createdAt": "2019-07-06T12:10:29.149Z"
-  }
-]
-```
-
-📝 **Obs:** a rota retorna todos os cards, cada um com `owner` e `likes`. Para ver o JSON completo, confira o arquivo [`cards.json`](./data/cards.json).
-
-![Postman - Get cards](./assets/images/postman-get-cards.png)
-
-*`GET /cards` → `200 OK` ✅.*
-
-🔹 **Buscar usuário por ID:**
-
-- Request:
-
-```bash
-GET http://localhost:3000/users/:id
-```
-
-Exemplo:
-
-```bash
-GET http://localhost:3000/users/dbfe53c3c4d568240378b0c6
-```
-
-- Response (200 OK):
+Exemplo POST:
 
 ```json
 {
-  "nome": "Ada Lovelace",
-  "sobre": "Matemático, escritor",
-  "avatar": "https://www.biography.com/.image/t_share/MTE4MDAzNDEwODQwOTQ2MTkw/ada-lovelace-20825279-1-402.jpg",
-  "_id": "dbfe53c3c4d568240378b0c6"
+  "name": "Ada Lovelace",
+  "about": "Matemática",
+  "avatar": "https://www.example.com/avatar.jpg"
 }
 ```
 
-![Postman - Get users id](./assets/images/postman-get-users_id.png)
+Exemplo GET no Postman:
 
-*`GET /users/:id` → `200 OK` ✅.*
+![Postman - Get - /users](./assets/images/rota-api-get-users.png)
 
-- Response (404 Not Found):
+_Teste da rota **GET /users** mostrando o retorno JSON com usuário cadastrado._
 
-```json
-{"message":"ID do usuário não encontrado"}
-```
+---
 
-![Postman - Get id inexistente](./assets/images/postman-get-id_inexistente.png)
+🃏 **Rotas de Cards:**
 
-*`GET /users/:id` → `404 Not Found` ❌.*
+| Método | Rota                   | Descrição              |
+| ------ | ---------------------- | ---------------------- |
+| GET    | `/cards`               | Lista todos os cards   |
+| POST   | `/cards`               | Cria um card           |
+| DELETE | `/cards/:cardId`       | Remove um card         |
+| PUT    | `/cards/:cardId/likes` | Curte um card          |
+| DELETE | `/cards/:cardId/likes` | Descurte um card       |
 
-🔹 **Rota inexistente:**
 
-- Request (exemplo):
-
-```bash
-GET http://localhost:3000/alguma-coisa
-```
-
-- Response (404 Not Found):
+Exemplo POST:
 
 ```json
-{ "message": "A solicitação não foi encontrada" }
+{
+  "name": "White Sulphur Springs, WV",
+  "link": "https://upload.wikimedia.org/...jpg"
+}
 ```
 
-![Postman - Get rota inexistente](./assets/images/postman-get-rota_inexistente.png)
+Exemplo POST no Postman:
 
-*`GET /alguma-coisa` → `404 Not Found` ❌.*
+![Postman - Post - /cards](./assets/images/rota-api-post-cards.png)
 
+_Teste da rota **POST /cards** mostrando o retorno JSON com o cartão cadastrado._
+
+🛠️ O `owner` é definido temporariamente via middleware:
+
+```json
+app.use((req, res, next) => {
+  req.user = {
+    _id: '68c4168c01d67ddcff340228', // _id do usuário teste criado via Postman
+  };
+
+  next();
+});
+```
+
+📝 Notas sobre **likes**/**dislikes**:
+
+- **Curtir um card**: `PUT /cards/:cardId/likes`:
+
+  ❤️ Adiciona o `_id` do usuário ao array `likes` apenas se ainda não estiver presente (`$addToSet`).
+
+- **Descurtir um card**: `DELETE /cards/:cardId/likes`:
+
+  💔 Remove o `_id` do usuário do array `likes` (`$pull`).
+
+- Cada card só pode ser curtido **uma vez por usuário**.
+
+- Todas as respostas de sucesso retornam o card atualizado em JSON.
 
 ## ⚠️ Tratamento de erros
 
-- ❌ **404 Not Found** → ID não encontrado ou rota inexistente. 
+- **400 Bad Request** ❌: dados inválidos enviados no corpo da requisição. Pode ser:
 
-- 💥 **500 Internal Server Error** → erro interno do servidor.  
+  - **ValidationError** → falha na validação dos campos (ex.: tamanho mínimo, obrigatório, formato da URL).
 
-![Postman - GET 500 reading](./assets/images/postman-get-500_reading.png)
+  ![Postman - Patch - /users/me](./assets/images/rota-api-patch-users-me.png)
 
-*Falha ao ler o arquivo JSON 💥.*
+  _Teste da rota **PATCH /users/me** no Postman, mostrando o retorno de **ValidationError** quando os dados enviados não atendem aos critérios do schema._
 
-![Postman - GET 500 parsing](./assets/images/postman-get-500_parsing.png)
+  - **CastError** → formato de dado inválido (ex.: `_id` de usuário ou card não é um `ObjectId` válido).
 
-*Falha ao processar os dados JSON 💥.*
+  ![Postman - Put - /cards/:cardId/likes](./assets/images/rota-api-put-cards-id-likes.png)
 
-- Todas as mensagens de erro seguem o formato:
+  _Teste da rota **PUT /cards/:cardId/likes** no Postman, mostrando o retorno de `CastError` quando o `_id` do cartão é inválido ou incompleto._
+
+- **404 Not Found** 🔍: recurso não encontrado ou rota inexistente. 
+
+![Postman - GET - 404](./assets/images/rota-api-get-404.png)
+
+_Teste da rota **GET /alguma-rota-que-não-existe** no Postman, mostrando o retorno de **404 Not Found** (`NotFoundError`) quando a rota não existe._
+
+- **500 Internal Server Error** 💥: erro interno do servidor.  
+
+📌 O tratamento de erros é centralizado pelas funções utilitárias **`mapError`** e **`handleError`**, que convertem erros do Mongoose e do Express em respostas padronizadas no formato JSON, garantindo consistência nas mensagens e códigos de status em todas as rotas.
+
+📌 Todas as respostas de erro seguem o padrão:
 
 ```json
 { "message": "Descrição do erro" }
@@ -327,33 +314,41 @@ GET http://localhost:3000/alguma-coisa
 
 ## ⚙️ Ambiente e Servidor
 
-- **Node.js** → ambiente de execução JavaScript no back-end: LTS recomendado, v22.15.0. 🟢
+- **Node.js** → ambiente de execução JavaScript no back-end: LTS recomendado, v22.15.0. 
 
-- **Express.js** → framework minimalista para criação do servidor e definição das rotas: v5.1.0. 📂
+- **Express.js** → framework minimalista para criação do servidor e definição das rotas: v5.1.0. 
+
+- **MongoDB** → banco de dados NoSQL, usado para armazenar usuários e cards: v8.0.13. 
+  
+  ⚠️ Para este projeto, de estudo, foi utilizada a versão 8.0 no Windows 10, mas para ambientes de produção geralmente recomenda-se versões LTS, como a 6.x.
 
 ## 📦 Gerenciamento de pacotes
 
-- **npm** → instalação e gerenciamento de dependências: v10.9.2. 🔧
+- **npm** → instalação e gerenciamento de dependências: v10.9.2. 
 
 ## 🔍 Qualidade de código
 
-- **EditorConfig** → consistência na formatação (indentação, encoding, quebras de linha). 📝
+- **EditorConfig** → consistência na formatação (indentação, encoding, quebras de linha). 
 
-- **ESLint (Airbnb Base)** → padronização do estilo de código JavaScript: v8.56.0. 💻
+- **ESLint (Airbnb Base)** → padronização do estilo de código JavaScript: v8.56.0. 
 
 ## 📂 Organização e Ferramentas
- 
-- **fs** → leitura assíncrona de arquivos JSON (nativo do Node.js). 📄
 
-- **path** → construção de caminhos de arquivos multiplataforma (nativo do Node.js). 🛤️
+- **Mongoose**: biblioteca de Modelagem de Dados de Objeto (ODM), atuando como tradutor entre objetos no código e a representação (documentos) desses objetos no MongoDB, gerenciando o relacionamento entre eles → criação de **Models e Schemas** com validação de dados e conexão com o banco. 📚
+
+- **Middlewares personalizados** → logging de requisições, autenticação temporária de usuário e tratamento de rotas não encontradas. 🛠️
+
+- **mapError e handleError** → funções utilitárias que padronizam os erros do servidor, convertendo-os em respostas JSON consistentes com status e mensagens uniformes. ⚡
 
 - **nodemon** → recarga automática do servidor durante o desenvolvimento: v3.1.10. 🔁
 
 - **open** → abertura automática do navegador com o início do servidor com hot reload: v7.4.2. 🌐
 
+📌 O projeto deixou de usar arquivos JSON locais, agora os dados vêm do MongoDB: não há mais dependência de **fs** ou **path** para manipulação de dados estáticos.
+
 ## 📝 Versionamento
 
-- **Git & GitHub** → versionamento e hospedagem do código-fonte. 🗃️
+- **Git & GitHub** → versionamento e hospedagem do código-fonte. 
 
 [🔝 Voltar ao topo](#top)
 
@@ -371,7 +366,7 @@ GET http://localhost:3000/alguma-coisa
 
 - Exceções personalizadas no ESLint para: `_id`, `console.log` e estilo de quebra de linha `LF`.
 
-- Criação do `README.md` com informações do projeto. 📄
+- Criação do `README.md` com informações do projeto. 
 
 ## 🚀 Servidor Express
 
@@ -392,94 +387,269 @@ GET http://localhost:3000/alguma-coisa
 
 ## 🌐 Rotas da API
 
-- **`GET`** `/users` - `200 OK` → retorna a lista completa de usuários a partir de `users.json`.
+👤 **Usuários**:
 
-- **`GET`** `/cards` - `200 OK` → retorna a lista completa de cards a partir de `cards.json`.
+- `GET /users` → retorna todos os usuários
 
-- **`GET`** `/users/:id` - `200 OK` → retorna um usuário específico pelo `id`.
+  - ✅ `200 OK` → lista de usuários
 
-  - **`GET`** `/users/:id` - `404 Not Found` → se o ID não for encontrado, retorna mensagem de erro.
+  - ❌ `404 Not Found` → se não houver usuários cadastrados
 
-- **`GET`** `/alguma-coisa` - `404 Not Found` → se a rota for inexistente, retorna mensagem de erro.
+- `GET /users/:userId` → retorna um usuário específico
+
+  - ✅ `200 OK` → dados do usuário
+
+  - ❌ `400 Bad Request` (`CastError`) → ID inválido
+
+  - ❌ `404 Not Found` → usuário não encontrado
+
+- `POST /users` → cria um novo usuário
+
+  - ✅ `201 Created` → usuário criado com sucesso
+
+  - ❌ `400 Bad Request` (`ValidationError`) → dados inválidos
+
+- `PATCH /users/me` → atualiza o nome e o sobre do usuário autenticado
+
+  - ✅ `200 OK` → usuário atualizado
+
+  - ❌ `400 Bad Request` (`ValidationError` ou `CastError`) → dados inválidos
+
+  - ❌ `404 Not Found` → usuário não encontrado
+
+- `PATCH /users/me/avatar` → atualiza o avatar do usuário autenticado
+
+  - ✅ `200 OK` → avatar atualizado
+
+  - ❌ `400 Bad Request` (`ValidationError` ou `CastError`) → dados inválidos
+
+  - ❌ `404 Not Found` → usuário não encontrado
+
+---
+
+🃏 **Cartões**:
+
+- `GET /cards` → retorna todos os cartões
+
+  - ✅ `200 OK` → lista de cartões
+
+  - ❌ `404 Not Found` → se não houver cartões cadastrados
+
+- `POST /cards` → cria um novo cartão
+
+  - ✅ `201 Created` → cartão criado com sucesso
+
+  - ❌ `400 Bad Request` (`ValidationError`) → dados inválidos
+
+- `DELETE /cards/:cardId` → remove um cartão pelo ID
+
+  - ✅ `200 OK` → cartão removido
+
+  - ❌ `400 Bad Request` (`CastError`) → ID inválido
+
+  - ❌ `404 Not Found` → cartão não encontrado
+
+- `PUT /cards/:cardId/likes` → adiciona uma curtida ao cartão
+
+  - ✅ `200 OK` → curtida registrada
+
+  - ❌ `400 Bad Request` (`CastError`) → ID inválido
+
+  - ❌ `404 Not Found` → cartão não encontrado
+
+- `DELETE /cards/:cardId/likes` → remove uma curtida do cartão
+
+  - ✅ `200 OK` → curtida removida
+
+  - ❌ `400 Bad Request` (`CastError`) → ID inválido
+
+  - ❌ `404 Not Found` → cartão não encontrado
+
+📌 O `_id` do usuário autenticado é definido temporariamente via middleware, em `app.js`.
+
+> ⚠️ `500 Internal Server Error` → erro interno do servidor → pode ocorrer em qualquer rota caso haja falha inesperada (ex.: indisponibilidade do banco de dados ou erro de execução).
+
+## 📝 Middlewares
+
+- **Logs de requisições** → registra método, URL, status e tempo de execução. 
+
+  ```javascript
+  // Middleware para registrar detalhes de cada requisição 
+  app.use((req, res, next) => { 
+    const { method, url } = req; 
+   const timestamp = new Date().toISOString(); 
+   console.log([${timestamp}] ${method} ${url}); 
+
+   const start = Date.now(); 
+  
+   // Quando a resposta terminar 
+   res.on('finish', () => { 
+     const duration = Date.now() - start; 
+      console.log(${res.statusCode} - ${duration}ms); 
+   }); 
+  
+   next(); 
+  });
+  ```
+
+- **Autenticação temporária** → define `req.user` com `_id` fixo para testes. 
+
+  ```javascript
+  // Middleware para simular um usuário autenticado 
+  app.use((req, res, next) => { 
+    req.user = { 
+      _id: '68c4168c01d67ddcff340228', // _id do usuário teste criado via Postman 
+    }; 
+
+    next(); 
+  });
+  ```
+
+- **Rotas inexistentes (404)** → retorna mensagem de erro padronizada. 
+
+  ```javascript
+  // Middleware para erros 404 - rotas não encontradas
+  app.use((req, res) => {
+    res.status(404).send({ message: 'A página não foi encontrada, é um endereço inexistente' });
+  });
+  ```
 
 ## 🛡️ Tratamento de erros
 
-- **`500 Internal Server Error`** → ocorre quando há um erro interno no servidor, por exemplo: falha ao ler ou processar o arquivo JSON → retorna mensagem de erro.
+- `400 Bad Request` → dados inválidos (`ValidationError`, `CastError`).  
+- `404 Not Found` → recurso inexistente (rota, ID ou coleção vazia).  
+- `500 Internal Server Error` → falha inesperada (execução ou banco de dados).  
 
-- **`404 Not Found`** → ocorre quando o recurso solicitado não existe (ex.: ID inválido ou rota inexistente, como mencionado na sub-seção acima).
+📌 Todas as respostas de erro seguem o formato padronizado:
 
-- Todas as respostas de erro seguem o formato padronizado com apenas o campo `message`.
+```json
+{ "message": "descrição" }
+```
 
-- O servidor não trava em solicitações inválidas e não gera erros não tratados no console.
+📌 Os controllers não tratam erros diretamente, usam funções auxiliares:
+
+- `mapError` → identifica o tipo de erro pelo `name` (ex.: `ValidationError`, `CastError`) e define `statusCode` e `message` correspondente.
+
+- `handleError` → recebe o erro já mapeado e envia a resposta padronizada para o cliente.
+
+Dessa forma, todas as rotas retornam mensagens consistentes e o servidor não trava com entradas inválidas.  
+
+## 💾 Banco de dados
+
+- Conexão com **MongoDB** via **Mongoose**. 🔗
+
+- **Models**: `User` e `Card` com validações de schema. 🗂️
+
+- **CRUD completo**: criação, leitura, atualização e exclusão de usuários e cartões - com métodos do Mongoose (ex.: `create`, `find`, `findByIdAndUpdate`, `findByIdAndDelete`). 🔄 
+
+- **Curtidas e descurtidas** com operadores do MongoDB:
+  - `$addToSet` → adiciona ID do usuário ao array de curtidas, sem duplicar. ❤️ 
+  - `$pull` → remove ID. 💔
+
+- **Funções auxiliares**:
+  - `handleAsync` → wrapper para controllers assíncronos, garantindo captura de erros com `try/catch`. 🛡️
+  - `.orFail()` → lança erro em consultas que retornam `null`, utilizando `throw new Error()`. ❗
+
+**Mongo DB Compass**:
+
+![MongoDB Compass - users](./assets/images/compass-users.png)
+
+_Visualização da coleção `users` no MongoDB Compass, mostrando o usuário cadastrado._
+
+![MongoDB Compass - cards](./assets/images/compass-cards.png)
+
+_Visualização da coleção `cards` no MongoDB Compass, exibindo o cartão cadastrado._
+
+**mongosh**:
+
+![mongosh - users](./assets/images/mongosh-users.png)
+
+_Visualização da coleção `users` no terminal **mongosh**, mostrando o usuário existente._
+
+![mongosh - cards](./assets/images/mongosh-cards.png)
+
+_Visualização da coleção `cards` no terminal **mongosh**, exibindo o cartão existente._
 
 ## 🗂️ Estrutura modular do projeto
 
-- 📂 `data/` → arquivos de dados JSON (`users.json` e `cards.json`).
+- `controllers/` → manipuladores de rotas, funções responsáveis pela  lógica de usuários e cartões (`users.js` e `cards.js`).
 
-- 📂 `routes/` → arquivos responsáveis pelo roteamento (`users.js` e `cards.js`).
+- `models/` → schemas Mongoose, definições do banco de dados (`user.js` e `card.js`).
 
-- 📂 `middlewares/` → middlewares de suporte para leitura e resposta das rotas.
+- `routes/` → configuração das rotas da API (`users.js` e `cards.js`).
 
-- Código organizado em módulos reutilizáveis, facilitando manutenção e expansão. 🔧
+![Estrutura do projeto](./assets/images/estrutura-modular.png)
 
-![Estrutura do projeto](./assets/images/estrutura-do-projeto.png)
+_Estrutura modular do projeto, facilitando manutenção e expansão._
 
-## 📄 Trabalho com arquivos
+💡 Possível expansão futura:
 
-- Uso do módulo **fs** (`fs.readFile`) para leitura assíncrona dos arquivos JSON.
+- `middlewares/` → autenticação, logs, validações.
 
-- Uso do módulo **path** (`path.join`) para construção segura e multiplataforma dos caminhos de arquivos.
+- `utils/` → funções auxiliares.
 
-- Tratamento de erros de leitura com `try/catch` e retorno padronizado de mensagens de erro.
+- `errors/` → classes personalizadas.
 
 [🔝 Voltar ao topo](#top)
 
 # 🎥 6. Demonstração:
 
-Vídeo do uso da aplicação mostrando suas funcionalidades. 🎞️
+Vídeo do uso da aplicação mostrando suas funcionalidades. 
 
-[▶️ Assista no Loom, clicando aqui.](https://www.loom.com/share/d7a2171497594e05a8fb09b45f2c8f48?sid=405b1afa-7fa8-40ac-80ae-1409b44d5d5b)
+Assista no Loom:
+
+[▶️ Parte 1 (Sprint 15)](https://www.loom.com/share/d7a2171497594e05a8fb09b45f2c8f48?sid=405b1afa-7fa8-40ac-80ae-1409b44d5d5b)
+
+[▶️ Parte 2 (Sprint 16)](https://www.loom.com/share/7c419b63dec448caaeef894ed4269b59?sid=5af2cdef-98d2-4374-b18f-96775ba82788)
 
 # 🚀 7. Próximos Passos:
 
-O projeto está preparado para evoluir nos próximos sprints do curso, incluindo:
+O projeto está preparado para evoluir nos próximos Sprints do curso:
 
-[] **Integração com banco de dados** 💾
+🔑 **Autenticação de usuários** 
 
-  - Substituir os arquivos JSON por um banco de dados real (ex.: MongoDB).
-
-[] **Autenticação de usuários** 🔑
-
-  - Implementar login, tokens JWT e validação de sessões.
+  - Implementar login com JWT e validação de sessões.
 
   - Criar middlewares de autenticação e autorização para proteger rotas específicas.
 
-[] **Tratamento avançado de erros e logs** 📝
+💾 **Configuração de banco para produção** 
 
-  - Middleware centralizado para erros, com logging detalhado para debug.
+  - Como backups e gerenciamento de dados em diferentes ambientes.
 
-  - Respostas padronizadas e rastreamento de exceções no servidor.
+📝 **Tratamento avançado de erros e logs** 
 
-[] **Deploy do servidor** 🌐
+  - Rastreamento de exceções no servidor com manipuladores globais de erros.
 
-  - Hospedar a API em um serviço remoto para integração com o front-end.
+🛡️ **Validação avançada e segurança de dados** 
 
-[] **Validação e segurança de dados** 🛡️
+  - Proteção contra injeções, ataques comuns e validação rigorosa de entradas.
 
-  - Validação de entradas do usuário, proteção contra injeção e ataques comuns.
+✅ **Testes automatizados** 
 
-[] **Testes automatizados** ✅
+  - Criar testes unitários e de integração para garantir confiabilidade da API.
 
-  - Criação de testes unitários e de integração para garantir a confiabilidade da API.
+🌐 **Deploy remoto da API** 
+
+  - Hospedar o servidor para integração com front-end e acesso público.
+
+---
+
+📌 Esta roadmap corresponde aos Sprints:
+
+- 17: Autenticação e autorização front-end (React) e segurança de aplicações web.
+
+- 18: Autenticação back-end, testes automatizados e preparação/implantação do servidor.
 
 [🔝 Voltar ao topo](#top)
 
 # 💡 8. Melhorias: 
 
-> - 📡 Especificar códigos de status de resposta HTTP nas respostas da API. Atualmente utilizados: 404 e 500. Futuramente, incluir, por exemplo: 422 e 503.
+- 📡 Especificar códigos de status HTTP completos (ex.: 422, 503).
 
-> - 📊 Implementar monitoramento e logging detalhado de requisições.
+- 📑 Índice clicável completo. 
 
-> - 📑 Adicionar índice clicável, com links internos para cada seção.
+- 🧩 Contexto no `mapError`: permitir personalização das mensagens de erro conforme o tipo de rota/ação.  
+
+- 📐 Mensagens de validação personalizadas: configurar mensagens do `validate` nos Schemas para retorno padronizado no tratamento de erros.  
 
 [🔝 Voltar ao topo](#top)
