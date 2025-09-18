@@ -63,13 +63,9 @@ function handleAsync(controllerFn) {
 }
 
 // O manipulador de solicitação getUsers
-// Erros: Not found ou Internal Server
+// Erros: Internal Server
 const getUsers = async (req, res) => {
-  const users = await User.find({}).orFail(() => {
-    const err = new Error('Erro ao localizar usuários, Recurso não encontrado: não existem usuários cadastrados');
-    err.name = 'NotFoundError';
-    throw err;
-  });
+  const users = await User.find({});
   res.send({ data: users });
 };
 

@@ -3,13 +3,9 @@ const Card = require('../models/card');
 const { handleAsync } = require('./users');
 
 // O manipulador de solicitação getCards
-// Erros: Not found, ou Internal server
+// Erros: Internal server
 const getCards = async (req, res) => {
-  const cards = await Card.find({}).orFail(() => {
-    const err = new Error('Erro ao buscar cartões, Recurso não encontrado: não existem cartões cadastrados');
-    err.name = 'NotFoundError';
-    throw err;
-  });
+  const cards = await Card.find({});
   res.send({ data: cards });
 };
 
