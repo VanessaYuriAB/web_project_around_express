@@ -1,6 +1,6 @@
 const Card = require('../models/card');
 
-const { handleAsync } = require('./users');
+const { handleAsync } = require('../utils/utils');
 
 // O manipulador de solicitação getCards
 // Erros: Internal server
