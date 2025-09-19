@@ -338,7 +338,7 @@ _Teste da rota **GET /alguma-rota-que-não-existe** no Postman, mostrando o reto
 
 - **Middlewares personalizados** → logging de requisições, autenticação temporária de usuário e tratamento de rotas não encontradas. 🛠️
 
-- **mapError e handleError** → funções utilitárias que padronizam os erros do servidor, convertendo-os em respostas JSON consistentes com status e mensagens uniformes. ⚡
+- **utils.js (mapError, handleError, handleAsync e ERROR_CODES)** → funções utilitárias e constantes que padronizam os erros do servidor, garantindo respostas JSON consistentes e seguras em todas as rotas. ⚡
 
 - **nodemon** → recarga automática do servidor durante o desenvolvimento: v3.1.10. 🔁
 
@@ -393,7 +393,7 @@ _Teste da rota **GET /alguma-rota-que-não-existe** no Postman, mostrando o reto
 
   - ✅ `200 OK` → lista de usuários
 
-  - ❌ `404 Not Found` → se não houver usuários cadastrados
+  - ✅ `200 OK` → se não houver usuário cadastrado: lista vazia
 
 - `GET /users/:userId` → retorna um usuário específico
 
@@ -433,7 +433,7 @@ _Teste da rota **GET /alguma-rota-que-não-existe** no Postman, mostrando o reto
 
   - ✅ `200 OK` → lista de cartões
 
-  - ❌ `404 Not Found` → se não houver cartões cadastrados
+  - ✅ `200 OK` → se não houver cartão cadastrado: lista vazia
 
 - `POST /cards` → cria um novo cartão
 
@@ -478,14 +478,14 @@ _Teste da rota **GET /alguma-rota-que-não-existe** no Postman, mostrando o reto
   app.use((req, res, next) => { 
     const { method, url } = req; 
    const timestamp = new Date().toISOString(); 
-   console.log([${timestamp}] ${method} ${url}); 
+   console.log(`[${timestamp}] ${method} ${url}`); 
 
    const start = Date.now(); 
   
    // Quando a resposta terminar 
    res.on('finish', () => { 
      const duration = Date.now() - start; 
-      console.log(${res.statusCode} - ${duration}ms); 
+      console.log(`${res.statusCode} - ${duration}ms`); 
    }); 
   
    next(); 
@@ -517,7 +517,7 @@ _Teste da rota **GET /alguma-rota-que-não-existe** no Postman, mostrando o reto
 ## 🛡️ Tratamento de erros
 
 - `400 Bad Request` → dados inválidos (`ValidationError`, `CastError`).  
-- `404 Not Found` → recurso inexistente (rota, ID ou coleção vazia).  
+- `404 Not Found` → recurso inexistente (rota, ID).  
 - `500 Internal Server Error` → falha inesperada (execução ou banco de dados).  
 
 📌 Todas as respostas de erro seguem o formato padronizado:
@@ -526,11 +526,13 @@ _Teste da rota **GET /alguma-rota-que-não-existe** no Postman, mostrando o reto
 { "message": "descrição" }
 ```
 
-📌 Os controllers não tratam erros diretamente, usam funções auxiliares:
+📌 Os controllers não tratam erros diretamente, usam funções auxiliares localizadas em `utils/utils.js`:
 
-- `mapError` → identifica o tipo de erro pelo `name` (ex.: `ValidationError`, `CastError`) e define `statusCode` e `message` correspondente.
+- `ERROR_CODES` → constante com códigos HTTP padronizados.
 
-- `handleError` → recebe o erro já mapeado e envia a resposta padronizada para o cliente.
+- `mapError` → identifica o tipo de erro pelo nome (ex.: `ValidationError`, `CastError`) e retorna status e mensagem apropriados.
+
+- `handleError` → envia a resposta padronizada para o cliente.
 
 Dessa forma, todas as rotas retornam mensagens consistentes e o servidor não trava com entradas inválidas.  
 
@@ -547,7 +549,7 @@ Dessa forma, todas as rotas retornam mensagens consistentes e o servidor não tr
   - `$pull` → remove ID. 💔
 
 - **Funções auxiliares**:
-  - `handleAsync` → wrapper para controllers assíncronos, garantindo captura de erros com `try/catch`. 🛡️
+  - `handleAsync` → wrapper para controllers assíncronos, garantindo captura de erros com `try/catch` (em `utils/utils.js`). 🛡️
   - `.orFail()` → lança erro em consultas que retornam `null`, utilizando `throw new Error()`. ❗
 
 **Mongo DB Compass**:
@@ -578,6 +580,8 @@ _Visualização da coleção `cards` no terminal **mongosh**, exibindo o cartão
 
 - `routes/` → configuração das rotas da API (`users.js` e `cards.js`).
 
+- `utils/` → funções auxiliares e constantes reutilizáveis: `ERROR_CODES`, `mapError`, `handleError`, `handleAsync` (`utils.js`).
+
 ![Estrutura do projeto](./assets/images/estrutura-modular.png)
 
 _Estrutura modular do projeto, facilitando manutenção e expansão._
@@ -585,8 +589,6 @@ _Estrutura modular do projeto, facilitando manutenção e expansão._
 💡 Possível expansão futura:
 
 - `middlewares/` → autenticação, logs, validações.
-
-- `utils/` → funções auxiliares.
 
 - `errors/` → classes personalizadas.
 
